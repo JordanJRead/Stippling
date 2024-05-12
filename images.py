@@ -13,7 +13,7 @@ def get_png(file: str) -> list[list[tuple]]:
     pixels = [list(row) for row in image[2]]
     image_arr = []
     step = 3
-    if len(pixels[0]) % 4 == 0:
+    if len(pixels[0]) % 4 == 0 and len(pixels[0]) % 3 != 0: # Try to catch an image that has RGBA instead of RGB
         step = 4
     for row in pixels:
         curr_row = []
@@ -200,15 +200,26 @@ def threshold_to_1bit(image: list[list[int]]) -> list[list[tuple]]:
         img_arr.append(new_row)
     return img_arr
 
-city_image = get_png(r"C:\Users\jord0451.SCDSB.000\Desktop\cat.png")
-print("got png")
-gray_city_image = image_to_grayscale(city_image)
-print("got grayscale")
-thresholded_image = threshold_gray(gray_city_image)
-print("thresholded")
+image_path: str = input("Enter png file path: ")
+image_path = image_path.removeprefix("\"")
+image_path = image_path.removesuffix("\"")
+
+print("Working...")
+
+image = get_png(image_path)
+print("Got PNG")
+
+gray_image = image_to_grayscale(image)
+print("Turned to Grayscale")
+
+thresholded_image = threshold_gray(gray_image)
+print("Thresholded Darkness Value")
+
 final = threshold_to_1bit(thresholded_image)
-print("shaded")
+print("Applied Effect")
+
 pypngfinal: Image = image_to_pypng(final)
-print("converted")
-pypngfinal.save(r"C:\Users\jord0451.SCDSB.000\Desktop\catoldblack.png")
-print("saved: done!")
+print("Converted to pypng")
+
+pypngfinal.save(image_path.removesuffix(".png") + "_shaded.png")
+print("Saved: Done!")
