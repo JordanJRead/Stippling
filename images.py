@@ -160,10 +160,9 @@ def threshold_to_1bit(image: list[list[int]]) -> list[list[tuple]]:
                 case 1:
                     """
                     W___W___W___
+                    ____________
                     __W___W___W___
                     ____________
-                    W___W___W___
-                    __W___W___W___
                     """
                     if row_num % 3 == 0:
                         if col % 4 == 0:
